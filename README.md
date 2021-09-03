@@ -1,4 +1,4 @@
-# Machine Learning Algorithms using R
+# Machine Learning Algorithms using R notebook
 
 I'm learning how to create some basic machine learning algorithms.
 
