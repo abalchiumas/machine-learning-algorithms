@@ -1,0 +1,59 @@
+---
+title: "Regression Tree"
+output: html_notebook
+---
+
+Importing libraries
+```{r}
+library(rpart)
+library(rpart.plot)
+library(forecast)
+```
+
+Importing a R built-in dataset
+```{r}
+dataset = iris
+```
+
+Holdout
+```{r}
+smpl = sample(2,nrow(dataset), replace = T, prob = c(0.7,0.3))
+smpltrain = dataset[smpl == 1,]
+smpltest = dataset[smpl == 2,]
+```
+
+Creating and visualizing the model
+```{r}
+model = rpart(Sepal.Length ~ Sepal.Width + Petal.Length + Petal.Width + Species,
+              data = smpltrain)
+model
+```
+
+Plotting the regression tree
+```{r}
+rpart.plot(model, box.palette = 'GnYlRd')
+```
+
+
+```{r}
+prdct1 = predict(model, newdata = smpltest)
+bnd1 = cbind(smpltest, prdct1)
+```
+
+Model Evaluation Metrics for prdct1 and bnd1: test sample
+```{r}
+accuracy(bnd1$prdct1, bnd1$Sepal.Length)
+```
+
+```{r}
+plot(bnd1$prdct1, type = 'o', col = 'red', ylab = 'Sepal.Length', xlab = '',
+     ylim = c(3.5, 8.5))
+
+lines(bnd1$Sepal.Length, type = 'o', col = 'blue')
+
+legend(3.5, 8.5, legend = c('Predicted', 'Expected'),
+       col = c('red', 'blue'), lty = 1:1, cex = 0.9)
+```
+
+
+

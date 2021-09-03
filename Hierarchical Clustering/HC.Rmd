@@ -1,0 +1,34 @@
+---
+title: "Hierarchical Clustering"
+output: html_notebook
+---
+ 
+
+```{r}
+library(factoextra)
+```
+
+
+```{r}
+hc = hcut(iris[,-5], k = 3, hc_method = 'complete', stand = T)
+hc
+```
+Dendrogram
+```{r}
+plot(hc)
+```
+
+```{r}
+viz1 = fviz_dend(hc, show_labels = F, rect = T, ggtheme = theme_bw(),
+                 main = 'Hierarchical Clustering')
+plot(viz1)
+```
+
+```{r}
+viz2 = fviz_cluster(hc, ellipse.type = 'norm', ggtheme = theme_bw(),
+                    main = 'Hierarchical Clustering')
+plot(viz2)
+```
+
+
+

@@ -1,0 +1,32 @@
+---
+title: "Random Forest Ensemble"
+output: html_notebook
+---
+
+
+```{r}
+library(randomForest)
+
+credit = read.csv('Credit.csv')
+credit$class = as.factor(credit$class)
+smpl = sample(2, nrow(credit), replace = T, prob = c(0.7,0.3))
+smpltrain = credit[smpl == 1,]
+smpltest = credit[smpl == 2,]
+```
+
+```{r}
+model = randomForest(class ~ ., data = smpltrain, ntree = 100, importance = T)
+plot(model)
+```
+
+```{r}
+prdct = predict(model, smpltest)
+
+confusion = table(prdct, smpltest$class)
+confusion
+
+acc = sum(diag(confusion))/sum(confusion)
+acc
+```
+
+

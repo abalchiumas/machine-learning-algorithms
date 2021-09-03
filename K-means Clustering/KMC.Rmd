@@ -1,0 +1,28 @@
+---
+title: "K-means Clustering"
+output: html_notebook
+---
+
+
+```{r}
+library(factoextra)
+```
+```{r}
+dataset = iris
+
+cluster = kmeans(dataset[1:4], centers = 3)
+cluster
+table(dataset$Species, cluster$cluster)
+```
+
+```{r}
+plot(dataset$Sepal.Length, dataset$Sepal.Width, col = cluster$cluster,
+     pch = 20, main = 'iris')
+plot(dataset[,1:4], col = cluster$cluster, pch = 20, main = 'iris')
+```
+
+```{r}
+viz = fviz_cluster(cluster, data = dataset[1:4], ellipse.type = 'convex',
+                   ggtheme = theme_bw(), main = 'cluster')
+plot(viz)
+```

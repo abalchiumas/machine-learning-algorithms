@@ -1,0 +1,49 @@
+---
+title: "Random Forest and Support Vector Machine"
+output: html_notebook
+---
+
+
+```{r}
+library(e1071)
+library(randomForest)
+```
+
+```{r}
+credit = read.csv('Credit.csv')
+credit$class = as.factor(credit$class)
+
+set.seed(234)
+smpl = sample(2, nrow(credit), replace = T, prob = c(0.7,0.3))
+smpltrain = credit[smpl == 1,]
+smpltest = credit[smpl == 2,]
+```
+
+Support Vector Machine
+```{r}
+model1 = svm(class ~ ., data = smpltrain)
+prdct1 = predict(model1, smpltest)
+confusion1 = table(smpltest$class, prdct1)
+acc1 = (confusion1[1] + confusion1[4])/sum(confusion1)
+acc1
+```
+
+Random Forest
+```{r}
+rf = randomForest(class ~ ., data = smpltrain)
+col = importance(rf)
+col
+varImpPlot(rf)
+```
+
+SVM with the most important variables (found through Random Forest)
+```{r}
+model3 = svm(class ~ credit_amount + age + duration + checking_status,
+             data = smpltrain)
+prdct3 = predict(model3, smpltest)
+confusion3 = table(smpltest$class, prdct3)
+acc3 = (confusion3[1] + confusion3[4])/sum(confusion3)
+acc3
+```
+The latter model allows for better performance and prediction accuracy
+

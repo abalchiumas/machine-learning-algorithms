@@ -1,0 +1,54 @@
+---
+title: "Naive Bayes"
+output: html_notebook
+---
+
+
+```{r}
+library(e1071)
+```
+
+
+```{r}
+credit = read.csv('Credit.csv')
+credit
+```
+
+It's needed to transform the class into a factor for the algorithm to work
+```{r}
+credit$class = as.factor(credit$class)
+```
+
+Holdout method
+```{r}
+smpl = sample(2,nrow(credit), replace = T, prob = c(0.7,0.3))
+smpltrain = credit[smpl == 1,]
+smpltest = credit[smpl == 2,]
+```
+
+
+```{r}
+model = naiveBayes(class ~ ., smpltrain)
+model
+```
+
+Creating a confusion matrix
+```{r}
+prdct = predict(model, smpltest)
+confusion = table(smpltest$class, prdct)
+confusion
+```
+Checking the model accuracy
+```{r}
+acc1 = (confusion[1] + confusion[4])/sum(confusion)
+acc1
+
+acc2 = (confusion[2] + confusion[3])/sum(confusion)
+acc2
+```
+
+
+
+
+
+

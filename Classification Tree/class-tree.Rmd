@@ -1,0 +1,55 @@
+---
+title: "Classification Tree"
+output: html_notebook
+---
+
+```{r}
+library(rpart)
+library(rpart.plot)
+```
+
+
+```{r}
+credit = read.csv("Credit.csv")
+credit
+```
+
+
+```{r}
+smpl = sample(2,nrow(credit), replace = T, prob = c(0.7,0.3))
+smpltrain = credit[smpl == 1,]
+smpltest = credit[smpl == 2,]
+```
+
+
+```{r}
+model = rpart(class ~ ., data = smpltrain, method = 'class')
+model
+```
+
+```{r, fig.width=40, fig.height=10}
+rpart.plot(model, box.palette = 'YlGnBl', tweak = 1.2)
+```
+
+```{r}
+test = predict(model, newdata = smpltest)
+crd = cbind(smpltest, test)
+```
+
+
+```{r}
+crd['Predicted'] = ifelse(crd$bad >= 0.5, 'bad', 'good')
+crd
+```
+
+
+```{r}
+confusion = table(crd$class, crd$Predicted)
+confusion
+accu = (confusion[1] + confusion[4])/(sum(confusion))
+
+paste('The model accuracy is', format(100*accu), '%')
+```
+
+
+

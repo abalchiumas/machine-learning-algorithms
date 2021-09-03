@@ -1,0 +1,36 @@
+---
+title: "Apriori"
+output: html_notebook
+---
+ 
+
+```{r}
+library(arules)
+library(arulesViz)
+```
+
+```{r}
+trnsc = read.transactions('transactions.txt', format = 'basket', sep = ',')
+trnsc
+inspect(trnsc)
+image(trnsc)
+```
+
+```{r}
+apr = apriori(trnsc, parameter = list(supp = 0.5, conf = 0.5, minlen = 2))
+apr
+summary(apr)
+inspect(apr)
+```
+
+```{r}
+plot(apr, method = 'graph', control = list(type = 'items'))
+```
+
+```{r}
+write.csv(DATAFRAME(apr), 'apr.csv')
+```
+
+
+
+

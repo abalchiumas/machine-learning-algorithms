@@ -1,0 +1,32 @@
+---
+title: "Fuzzy C-means"
+output: html_notebook
+---
+
+
+```{r}
+library(e1071)
+library(factoextra)
+library(RColorBrewer)
+```
+
+```{r}
+cluster = cmeans(iris[,1:4], centers = 3)
+
+confusion = table(iris$Species, cluster$cluster)
+confusion
+```
+
+```{r}
+heatmap(cluster$membership, Rowv = NA, Colv = NA,
+        col = brewer.pal(n = 9,name = 'YlOrRd'), main = 'heatmap')
+```
+
+```{r}
+viz = fviz_cluster(list(data = iris[,1:4], cluster = cluster$cluster),
+                   ellipse.type = 'norm', ggtheme = theme_bw(),
+                   main = 'cluster')
+plot(viz)
+```
+
+

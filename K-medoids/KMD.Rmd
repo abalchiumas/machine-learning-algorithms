@@ -1,0 +1,25 @@
+---
+title: "K-medoids"
+output: html_notebook
+---
+
+
+```{r}
+library(cluster)
+library(factoextra)
+```
+
+```{r}
+dataset = iris
+
+cluster = pam(dataset[,1:4], k = 3)
+plot(cluster)
+table(dataset$Species, cluster$clustering)
+```
+
+```{r}
+viz = fviz_cluster(list(data = dataset[,1:4], cluster = cluster$cluster),
+                   ellipse.type = 'norm', ggtheme = theme_bw(),
+                   main = 'cluster')
+plot(viz)
+```

@@ -1,0 +1,32 @@
+---
+title: "Eclat"
+output: html_notebook
+---
+ 
+
+```{r}
+library(arules)
+library(arulesViz)
+```
+
+```{r}
+trnsc = read.transactions('transactions.txt', format = 'basket', sep = ',')
+trnsc
+inspect(trnsc)
+image(trnsc)
+```
+
+```{r}
+ec = eclat(trnsc, parameter = list(minlen = 2))
+ec
+
+inspect(ec)
+```
+
+```{r}
+plot(ec, method = 'graph', control = list(type = 'items'))
+```
+
+
+
+

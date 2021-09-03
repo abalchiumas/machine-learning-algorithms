@@ -1,0 +1,6 @@
+Beer,Pizza,Ice Cream
+Pizza,Ice Cream
+Beer,Pizza
+Beer,Pizza,Ice Cream
+Beer,Pizza
+Pizza
